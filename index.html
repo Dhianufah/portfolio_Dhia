@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dhia Nufah — Software Engineer</title>
+  <meta name="description" content="Portfolio Dhia Nufah, web and mobile developer.">
+
+  <!-- Bootstrap 5 (lokal, dari folder bootstrap/) -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Pasang tema sebelum halaman ke-render biar gak kedip -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Background jaring (particle network) + kursor custom -->
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg sticky-top site-nav">
+  <div class="container">
+    <a class="navbar-brand" href="#top">dhia<span>.dev</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Open menu">
+      <svg class="ico" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/></svg>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link" href="#about" data-i18n="nav_about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#experience" data-i18n="nav_exp">Experience</a></li>
+        <li class="nav-item"><a class="nav-link" href="#projects" data-i18n="nav_projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills" data-i18n="nav_skills">Skills</a></li>
+        <li class="nav-item">
+          <button type="button" class="theme-toggle" aria-label="Toggle dark / light mode">
+            <svg class="ico-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 1.5v2.5M12 20v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M1.5 12h2.5M20 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+          </button>
+        </li>
+        <li class="nav-item">
+          <div class="lang-switch" role="group" aria-label="Language">
+            <button type="button" data-lang="en" class="active">EN</button>
+            <button type="button" data-lang="id">ID</button>
+          </div>
+        </li>
+        <li class="nav-item"><a class="btn btn-ink btn-sm ms-lg-2" href="#contact" data-i18n="nav_contact">Contact me</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <p class="status"><span class="dot"></span> <span data-i18n="status">Open for freelance</span></p>
+        <p class="hero-hello">
+          <span class="wave" aria-hidden="true">👋</span>
+          <span data-i18n="hello">Hello there</span>
+        </p>
+        <h1 class="hero-name" aria-label="Dhia Nufah">
+          <span class="name-word"><span>Dhia</span></span>
+          <span class="name-word"><span class="name-grad">Nufah</span></span>
+        </h1>
+        <p class="hero-role">
+          <span data-i18n="role_prefix">I'm a</span> <span class="typed" data-words="Software Engineer|Web Developer|Mobile Developer|Figma Designer|CapCut Editor">Software Engineer</span><span class="caret" aria-hidden="true"></span>
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a href="#projects" class="btn btn-cobalt btn-lg" data-i18n="btn_projects">See my projects</a>
+          <a href="assets/CV-Dhia Nufah Software Engineer.pdf" class="btn btn-outline-ink btn-lg" download>
+            <svg class="ico" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/></svg> <span data-i18n="btn_cv">Download CV</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Foto profil -->
+      <div class="col-lg-6">
+        <div class="portrait-stage">
+          <div class="portrait-orbit orbit-1"><span></span></div>
+          <div class="portrait-orbit orbit-2"><span></span></div>
+          <div class="portrait">
+            <img src="assets/dhinup.jpg" alt="Portrait of Dhia Nufah">
+          </div>
+          <div class="portrait-chip chip-1"><span class="chip-ico">&lt;/&gt;</span> Web Dev</div>
+          <div class="portrait-chip chip-2"><span class="chip-ico">📱</span> Mobile Dev</div>
+          <div class="portrait-chip chip-3"><svg class="ico" viewBox="0 0 38 57" aria-hidden="true"><path fill="#1ABCFE" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0"/><path fill="#0ACF83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0"/><path fill="#FF7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19z"/><path fill="#F24E1E" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5"/><path fill="#A259FF" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5"/></svg> Figma Designer</div>
+          <div class="portrait-chip chip-4"><span class="chip-ico">🎬</span> CapCut Editor</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <h2 class="section-title" data-i18n="about_title">About me</h2>
+      </div>
+      <div class="col-lg-8">
+        <p class="about-text" data-i18n="about_text">
+          I'm a Software Engineering student focused on web and mobile development. I've built
+          company profiles, internal systems and mobile apps for clients, and I also teach programming
+          basics at several schools. I work with strong discipline, creativity and a commitment to
+          building impactful digital products.
+        </p>
+        <div class="row g-3 mt-2 facts">
+          <div class="col-sm-4"><strong>2024 – 2027</strong><span>IDN Boarding School, Jonggol</span></div>
+          <div class="col-sm-4"><strong>Web + Mobile</strong><span>Laravel, React, React Native, Flutter</span></div>
+          <div class="col-sm-4"><strong>Jakarta</strong><span data-i18n="fact_remote">Available remote</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section class="section section-alt" id="experience">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <h2 class="section-title" data-i18n="nav_exp">Experience</h2>
+        <p class="text-muted-ink" data-i18n="exp_sub">Where I've shipped work so far.</p>
+      </div>
+      <div class="col-lg-8">
+        <ol class="timeline">
+          <li>
+            <div class="tl-head"><h3>Web & Mobile Developer</h3><span class="tl-date" data-i18n="present">June 2024 – Present</span></div>
+            <p class="tl-org">Freelance · Remote</p>
+            <p data-i18n="exp1">Built websites and mobile apps for freelance clients, handling UI, API integration, backend logic and database management.</p>
+          </li>
+          <li>
+            <div class="tl-head"><h3>Website Developer</h3><span class="tl-date" data-i18n="d_biantara">October 2026</span></div>
+            <p class="tl-org">PT Biantara Teknologi Indonesia</p>
+            <p data-i18n="exp2">Developed client websites end to end, from implementation to completion, using the stack each project required.</p>
+          </li>
+          <li>
+            <div class="tl-head"><h3>Mobile Developer</h3><span class="tl-date" data-i18n="d_quamus">June 2026</span></div>
+            <p class="tl-org">PT Quamus Global Academy</p>
+            <p data-i18n="exp3">Built a React Native attendance and monitoring app for schools, integrated attendance and student data APIs, and demoed features to clients.</p>
+          </li>
+          <li>
+            <div class="tl-head"><h3>Fullstack Developer</h3><span class="tl-date" data-i18n="d_codveda">April 2026</span></div>
+            <p class="tl-org">CodVeda Technology</p>
+            <p data-i18n="exp4">Worked with the dev team across frontend, backend, API integration and JSON data handling for web and mobile features.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+      <div>
+        <h2 class="section-title mb-1" data-i18n="nav_projects">Projects</h2>
+        <p class="text-muted-ink mb-0" data-i18n="proj_sub">A selection of web and mobile work.</p>
+      </div>
+      <div class="filter" role="group" aria-label="Filter projects">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="mobile">Mobile</button>
+      </div>
+    </div>
+
+    <!--
+      CARA NAMBAH PROJECT:
+      1. Taro screenshot halaman pertama di folder assets/projects/
+      2. Copy satu blok <div class="col ... project"> di bawah
+      3. Ganti src gambar, judul, deskripsi, tag, dan link
+      Web  -> pake blok "browser"   (rasio 16:10, screenshot ukuran desktop ±1440x900)
+      Mobile -> pake blok "phone"   (rasio 9:19, screenshot ukuran HP ±390x844)
+    -->
+
+    <!-- ---------- WEB ---------- -->
+    <div class="row g-4 project-grid">
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Kinfolk book</small></div>
+            <div class="shot">
+              <img src="assets/kinfolk.png" alt="Kinfolk Book homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/projects/kinfolk-book.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">E-commerce</span>
+            <h3>Kinfolk Book</h3>
+            <p data-i18n="w_kinfolk">Online store for Kinfolk magazines and books, with product search, wishlist, cart and user accounts.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Tailwind CSS"><img src="assets/icons/tailwindcss.svg" alt="Tailwind CSS"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Company Profile</small></div>
+            <div class="shot">
+              <img src="assets/cahaya.png" alt="PT Cahaya Paramitha Abadi homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/projects/cahaya.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Company profile</span>
+            <h3>PT Cahaya Paramitha Abadi</h3>
+            <p data-i18n="w_cahaya">Company profile for a distributor of electrical and household products, with catalog and partner brands.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>web notes</small></div>
+            <div class="shot">
+              <img src="assets/notezy.png" alt="Notezy homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/notezy.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Web app</span>
+            <h3>Notezy</h3>
+            <p data-i18n="w_notezy">Note-taking web app with login and register, giving each user a personal space for notes and plans.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="Tailwind CSS"><img src="assets/icons/tailwindcss.svg" alt="Tailwind CSS"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Company Profile</small></div>
+            <div class="shot">
+              <img src="assets/beakon.png" alt="Beakon Leadership homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/beakon.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Company profile</span>
+            <h3>PT. Talenta Fokus Indonesia</h3>
+            <p data-i18n="w_beakon">Website for Beakon Leadership, a leadership development consultancy, with solutions and insights pages.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Dashboard Payment</small></div>
+            <div class="shot">
+              <img src="assets/paydholla.png" alt="Paydholla homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/paydholla.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Web app</span>
+            <h3>Paydholla</h3>
+            <p data-i18n="w_paydholla">Attendance-based payroll system that lets employees and treasurers manage salaries in one dashboard.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Course Profile</small></div>
+            <div class="shot">
+              <img src="assets/BBI.png" alt="BISA Bahasa Indonesia homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/BBI.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Education</span>
+            <h3>BISA Bahasa Indonesia</h3>
+            <p data-i18n="w_bbi">Website for an Indonesian language course for foreigners, with structured levels and WhatsApp booking.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Company Profile</small></div>
+            <div class="shot">
+              <img src="assets/starlight.png" alt="Starlight Intercontinental homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/starlight.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Company profile</span>
+            <h3>Starlight Intercontinental</h3>
+            <p data-i18n="w_starlight">Company profile for a global trading company supplying textiles and chemicals across Indonesia.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Dashboard Monitoring</small></div>
+            <div class="shot">
+              <img src="assets/pokjawas.png" alt="Pokjawas Monitoring System homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/projects/pokjawas.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Web app</span>
+            <h3>Pokjawas Monitoring System</h3>
+            <p data-i18n="w_pokjawas">Administration and reporting system for Pokjawas Kemenag Kabupaten Tangerang, with an admin dashboard.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="React.js"><img src="assets/icons/react.svg" alt="React.js"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>freelance content creator malaysia</small></div>
+            <div class="shot">
+              <img src="assets/portfolio.png" alt="Next Level Studio portfolio homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/portfolio.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Portfolio</span>
+            <h3>Content Creator Portfolio</h3>
+            <p data-i18n="w_portfolio">Portfolio site for Next Level Studio, a freelance video editor from Malaysia, with works and reviews.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="HTML"><img src="assets/icons/html5.svg" alt="HTML"></li><li data-name="CSS"><img src="assets/icons/css3.svg" alt="CSS"></li><li data-name="JavaScript"><img src="assets/icons/javascript.svg" alt="JavaScript"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <!-- Company profile: 1 kartu per PT, duplikat aja kalo mau dipisah -->
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Company Profile</small></div>
+            <div class="shot">
+              <img src="assets/dixon.png" alt="PT Dixon Bahari Sejahtera homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/dixon.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Company profile</span>
+            <h3>PT Dixon Bahari Sejahtera</h3>
+            <p data-i18n="w_dixon">Company profile for a marine service company covering second-hand ships, new builds and ship design.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Company Profile</small></div>
+            <div class="shot">
+              <img src="assets/TYPSS.png" alt="TYPSS School homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/TYPSS.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Education</span>
+            <h3>TYPSS School</h3>
+            <p data-i18n="w_typss">Website for a public speaking school in Indonesia, with programs, events, news and free consultation.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="web">
+        <article class="project-card">
+          <div class="browser">
+            <div class="browser-bar"><span></span><span></span><span></span><small>Company Profile</small></div>
+            <div class="shot">
+              <img src="assets/DCI.png" alt="PT Dharma Chakra Indonesia homepage" onerror="this.remove()">
+              <div class="shot-empty">Put the homepage here<br><code>assets/DCI.png</code></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <span class="project-cat">Company profile</span>
+            <h3>PT Dharma Chakra Indonesia</h3>
+            <p data-i18n="w_dci">Website for a private helicopter charter service, showing its fleet, destinations and online booking.</p>
+            <ul class="stack" aria-label="Tech stack"><li data-name="Bootstrap"><img src="assets/icons/bootstrap.svg" alt="Bootstrap"></li><li data-name="Laravel"><img src="assets/icons/laravel.svg" alt="Laravel"></li><li data-name="MySQL"><img src="assets/icons/mysql.svg" alt="MySQL"></li></ul>
+          </div>
+        </article>
+      </div>
+
+      <!-- ---------- MOBILE ---------- -->
+      <div class="col-md-6 col-lg-4 project" data-type="mobile">
+        <article class="project-card project-card-mobile">
+          <div class="mockup">
+            <img class="mockup-bg" src="assets/nectar.png" alt="" aria-hidden="true" onerror="this.remove()">
+            <img src="assets/nectar.png" alt="Nectar app mockup" onerror="this.remove()">
+            <div class="shot-empty">Put the mockup here</div>
+            <span class="mockup-label">Nectar</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="mobile">
+        <article class="project-card project-card-mobile">
+          <div class="mockup">
+            <img class="mockup-bg" src="assets/nusaapp.png" alt="" aria-hidden="true" onerror="this.remove()">
+            <img src="assets/nusaapp.png" alt="Nusaberita app mockup" onerror="this.remove()">
+            <div class="shot-empty">Put the mockup here</div>
+            <span class="mockup-label">Nusaberita</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-md-6 col-lg-4 project" data-type="mobile">
+        <article class="project-card project-card-mobile">
+          <div class="mockup">
+            <img class="mockup-bg" src="assets/qr.png" alt="" aria-hidden="true" onerror="this.remove()">
+            <img src="assets/qr.png" alt="QR Code Cashier app mockup" onerror="this.remove()">
+            <div class="shot-empty">Put the mockup here</div>
+            <span class="mockup-label">QR Code Cashier</span>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= MENTORING ================= -->
+<section class="section section-alt" id="mentoring">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <h2 class="section-title">IT mentor</h2>
+      </div>
+      <div class="col-lg-8">
+        <p class="about-text mb-4" data-i18n="mentor_text">
+          I teach HTML, CSS and JavaScript to junior students and guide them through building
+          their first websites and portfolios with hands-on projects.
+        </p>
+        <ul class="school-list">
+          <li>SMPN 5 Sumedang</li>
+          <li>SMP Nurul I'tishom</li>
+          <li>MTs Muhammaduddarain</li>
+          <li>SMP Islam Ar Rahmah Jakarta</li>
+          <li>SMP/SMK Islam Al-Amin</li>
+          <li class="list-break" aria-hidden="true"></li>
+          <li>SMP Al-Azhar Cibinong</li>
+          <li>SMK Mitra Bintaro</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <h2 class="section-title" data-i18n="nav_skills">Skills</h2>
+      </div>
+      <div class="col-lg-8">
+        <div class="skills-wrap">
+          <!-- Ubah persen di --lvl dan data-val + angka %. Warna otomatis ngikutin persen (atur di script.js) -->
+          <div class="skill-group">
+            <h3 data-i18n="sk_lang">Languages</h3>
+            <div class="skill-grid">
+              <div class="skill" style="--lvl:98%">
+                <div class="skill-head"><span>HTML</span><span class="skill-pct" data-val="98">98%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:100%">
+                <div class="skill-head"><span>CSS</span><span class="skill-pct" data-val="100">100%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:95%">
+                <div class="skill-head"><span>JavaScript</span><span class="skill-pct" data-val="95">95%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:97%">
+                <div class="skill-head"><span>PHP</span><span class="skill-pct" data-val="97">97%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:96%">
+                <div class="skill-head"><span>Dart</span><span class="skill-pct" data-val="96">96%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h3>Frameworks</h3>
+            <div class="skill-grid">
+              <div class="skill" style="--lvl:98%">
+                <div class="skill-head"><span>Bootstrap</span><span class="skill-pct" data-val="98">98%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:97%">
+                <div class="skill-head"><span>Tailwind CSS</span><span class="skill-pct" data-val="97">97%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:97%">
+                <div class="skill-head"><span>Laravel</span><span class="skill-pct" data-val="97">97%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:95%">
+                <div class="skill-head"><span>CodeIgniter</span><span class="skill-pct" data-val="95">95%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:96%">
+                <div class="skill-head"><span>React.js</span><span class="skill-pct" data-val="96">96%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:61%">
+                <div class="skill-head"><span>React Native</span><span class="skill-pct" data-val="61">61%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:96%">
+                <div class="skill-head"><span>Flutter</span><span class="skill-pct" data-val="96">96%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h3>Backend &amp; data</h3>
+            <div class="skill-grid">
+              <div class="skill" style="--lvl:96%">
+                <div class="skill-head"><span>MySQL</span><span class="skill-pct" data-val="96">96%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:87%">
+                <div class="skill-head"><span>REST API</span><span class="skill-pct" data-val="87">87%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:97%">
+                <div class="skill-head"><span>CRUD</span><span class="skill-pct" data-val="97">97%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+              <div class="skill" style="--lvl:65%">
+                <div class="skill-head"><span>CI/CD</span><span class="skill-pct" data-val="65">65%</span></div>
+                <div class="skill-bar"><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h3 data-i18n="sk_tools">Tools</h3>
+            <ul class="chip-list"><li>Git</li><li>GitHub</li><li>VS Code</li><li>Figma</li><li>Trello</li><li>Canva</li><li>CapCut</li><li>Filmora</li></ul>
+          </div>
+          <div class="skill-group">
+            <h3>Soft skills</h3>
+            <p class="soft-skills" data-i18n="sk_soft">Problem solving, communication, leadership, teamwork, time management, critical thinking</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="row align-items-end g-4">
+      <div class="col-lg-7">
+        <h2 class="contact-title" data-i18n="contact_title">Have a project in mind? Let's build it.</h2>
+        <a class="contact-mail" href="mailto:dhianufah08@gmail.com">dhianufah08@gmail.com</a>
+      </div>
+      <div class="col-lg-5">
+        <ul class="contact-links">
+          <li><a href="https://wa.me/6285711598791" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> +62 857 1159 8791</a></li>
+          <li><a href="https://linkedin.com/in/dhianufah" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg> linkedin.com/in/dhianufah</a></li>
+          <li><a href="https://github.com/Dhianufah" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg> github.com/Dhianufah</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-note">made by ©dhianufaah</p>
+  </div>
+</section>
+
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
