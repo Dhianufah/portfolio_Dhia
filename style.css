@@ -58,7 +58,7 @@ body, .site-nav, .project-card, .portrait-chip, .section-alt, .browser, .status,
 }
 
 /* ================= BASE ================= */
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; overflow-x: clip; }
 body {
   background:
     radial-gradient(900px 600px at 10% -10%, var(--glow-1), transparent 60%),
@@ -136,11 +136,16 @@ body.cursor-hover .cursor-ring {
 .btn-outline-ink:hover { border-color: var(--pink); color: var(--strong); background: rgba(236, 72, 153, .12); }
 
 /* ================= NAV ================= */
+/* blur ditaruh di ::before, soalnya backdrop-filter di nav bikin menu samping
+   (position: fixed) ke-clip cuma setinggi navbar */
 .site-nav {
-  background: var(--nav-bg);
-  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
-  z-index: 1030;
+  z-index: 1041; /* di atas backdrop offcanvas (1040) biar menu samping gak ketutup */
+}
+.site-nav::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
 }
 .navbar-brand { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; color: var(--ink); }
 .navbar-brand:hover { color: var(--ink); }
@@ -149,6 +154,44 @@ body.cursor-hover .cursor-ring {
 .site-nav .nav-link:hover { color: var(--strong); }
 .navbar-toggler { border: 0; font-size: 1.8rem; color: var(--ink); }
 .navbar-toggler:focus { box-shadow: none; }
+
+/* ===== Menu samping (offcanvas) buat HP & tablet ===== */
+@media (max-width: 991.98px) {
+  .site-nav .offcanvas {
+    width: min(82vw, 320px);
+    background: var(--bg);
+    color: var(--ink);
+    border-left: 1px solid var(--line);
+    box-shadow: -20px 0 50px -20px var(--shadow);
+    transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+  }
+  /* item menu ikut masuk dari kanan satu-satu */
+  .site-nav .offcanvas .nav-item { opacity: 0; transform: translateX(30px); transition: opacity .35s ease, transform .35s ease; }
+  .site-nav .offcanvas.show .nav-item,
+  .site-nav .offcanvas.showing .nav-item { opacity: 1; transform: none; }
+  .site-nav .offcanvas.show .nav-item:nth-child(2) { transition-delay: .04s; }
+  .site-nav .offcanvas.show .nav-item:nth-child(3) { transition-delay: .08s; }
+  .site-nav .offcanvas.show .nav-item:nth-child(4) { transition-delay: .12s; }
+  .site-nav .offcanvas.show .nav-item:nth-child(n+5) { transition-delay: .16s; }
+  .site-nav .offcanvas:focus { outline: none; }
+  .site-nav .offcanvas-header { justify-content: space-between; padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--line); }
+  .site-nav .offcanvas-body { padding: 1rem 1.25rem 1.5rem; }
+  .site-nav .offcanvas .navbar-nav { width: 100%; gap: .25rem; }
+  .site-nav .offcanvas .nav-link { padding: .7rem .25rem; font-size: 1.05rem; border-bottom: 1px solid var(--line); }
+  .site-nav .offcanvas .btn-ink { display: block; width: 100%; margin-top: .75rem; padding: .7rem 1rem; }
+  /* toggle tema + bahasa sebaris */
+  .site-nav .offcanvas .nav-item:has(.theme-toggle),
+  .site-nav .offcanvas .nav-item:has(.lang-switch) { display: inline-flex; align-items: center; }
+  .site-nav .offcanvas .navbar-nav { flex-direction: row; flex-wrap: wrap; }
+  .site-nav .offcanvas .nav-item:not(:has(.theme-toggle)):not(:has(.lang-switch)) { flex: 0 0 100%; }
+}
+.nav-close {
+  width: 38px; height: 38px; display: inline-grid; place-items: center;
+  border-radius: 50%; border: 1px solid var(--line);
+  background: var(--glass-strong); color: var(--ink); font-size: 1rem;
+}
+.nav-close:hover { border-color: var(--pink); }
+.offcanvas-backdrop.show { opacity: .55; }
 
 /* ================= HERO ================= */
 .hero { padding: 5rem 0 6rem; overflow: hidden; min-height: calc(100vh - 70px); display: flex; align-items: center; }
@@ -487,11 +530,12 @@ body.cursor-hover .cursor-ring {
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 991.98px) {
-  .site-nav .navbar-collapse { padding: 1rem 0; }
   .hero { padding: 3rem 0 4rem; min-height: 0; }
   .section { padding: 4rem 0; }
 }
 @media (max-width: 575.98px) {
+  /* gutter g-5 (3rem) lebih lebar dari padding container di HP -> bikin geser ke samping */
+  .row.g-5 { --bs-gutter-x: 1.5rem; }
   .skill-table > div { grid-template-columns: 1fr; gap: .25rem; }
   .device-stage { padding-right: 1.5rem; }
 }
@@ -534,7 +578,7 @@ body.cursor-hover .cursor-ring {
 .theme-toggle .ico-sun  { color: #F59E0B; transform: rotate(-90deg) scale(.4); opacity: 0; }
 [data-theme="light"] .theme-toggle .ico-moon { transform: rotate(90deg) scale(.4); opacity: 0; }
 [data-theme="light"] .theme-toggle .ico-sun  { transform: rotate(0) scale(1); opacity: 1; }
-@media (max-width: 991.98px) { .theme-toggle { margin: .5rem 0 .5rem .5rem; } }
+@media (max-width: 991.98px) { .theme-toggle { margin: .5rem .5rem .5rem 0; } }
 
 /* ================= MOCKUP APLIKASI (mobile) =================
    Kotak persegi panjang, tingginya ngikutin gambar mockup.

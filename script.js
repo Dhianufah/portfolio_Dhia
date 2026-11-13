@@ -13,11 +13,11 @@ buttons.forEach(btn => {
   });
 });
 
-// Tutup menu mobile pas link diklik
+// Tutup menu samping (offcanvas) pas link diklik
 document.querySelectorAll('#nav .nav-link, #nav .btn').forEach(link => {
   link.addEventListener('click', () => {
     const nav = document.getElementById('nav');
-    if (nav.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(nav).hide();
+    if (nav.classList.contains('show')) bootstrap.Offcanvas.getOrCreateInstance(nav).hide();
   });
 });
 
